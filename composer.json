@@ -17,11 +17,20 @@
         "dhii/php-cs-fixer-config": "dev-php-5.3",
         "phpunit/phpunit": "^4.8",
         "ptrofimov/xpmock": "^1.1",
-        "codeclimate/php-test-reporter": "<=0.3.2"
+        "codeclimate/php-test-reporter": "<=0.3.2",
+        "dhii/validation-interface": "^0.1"
     },
     "autoload": {
         "psr-4": {
             "Dhii\\Validation\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Dhii\\Validation\\TestStub\\": "test/stub/"
+        }
+    },
+    "suggest": {
+        "dhii/validation-interface": "Needed to be able to create exceptions that are expected to be thrown"
     }
 }
