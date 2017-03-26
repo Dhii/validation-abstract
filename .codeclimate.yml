@@ -10,8 +10,9 @@ engines:
   phpmd:
     enabled: true
     config:
-      file_extensions: "php"
-      rulesets: phpmd.xml
+      file_extensions:
+        - php
+      rulesets: "phpmd.xml"
 ratings:
   paths:
   - "**.inc"
