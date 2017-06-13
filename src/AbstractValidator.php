@@ -15,6 +15,17 @@ use Dhii\Validation\Exception\ValidationFailedExceptionInterface;
 abstract class AbstractValidator
 {
     /**
+     * Parameter-less constructor.
+     *
+     * Invoke this in the actual constructor.
+     *
+     * @since [*next-version*]
+     */
+    protected function _construct()
+    {
+    }
+
+    /**
      * Creates a new validation exception.
      *
      * @since 0.1

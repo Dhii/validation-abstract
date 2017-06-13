@@ -9,4 +9,14 @@ namespace Dhii\Validation\Exception;
  */
 class AbstractValidationException extends \Exception
 {
+    /**
+     * Parameter-less constructor.
+     *
+     * Invoke this in the actual constructor.
+     *
+     * @since [*next-version*]
+     */
+    protected function _construct()
+    {
+    }
 }
