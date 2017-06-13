@@ -31,8 +31,8 @@ class AbstractValidatorTest extends TestCase
         $me = $this;
         $mock = $this->mock(static::TEST_SUBJECT_CLASSNAME)
                 ->_createValidationException()
-                ->_createValidationFailedException(function ($message) use (&$me) {
-                    return $me->createValidationFailedException($message);
+                ->_createValidationFailedException(function ($message, $code = 0, $exception = null, $subject, $errors) use (&$me) {
+                    return $me->createValidationFailedException($message, $code, $exception, $subject, $errors);
                 })
                 ->_getValidationErrors(function($subject) {
                     if ($subject !== true) {
@@ -53,11 +53,12 @@ class AbstractValidatorTest extends TestCase
      *
      * @return ValidationFailedExceptionInterface
      */
-    public function createValidationFailedException($message)
+    public function createValidationFailedException($message, $code = 0, $previous = null, $subject = null, $errors = array())
     {
         $mock = $this->mock('Dhii\\Validation\\TestStub\\AbstractValidationFailedException')
-                ->getValidationErrors()
-                ->getSubject()
+                ->getValidationErrors(function() use ($errors) {return $errors;})
+                ->getSubject(function() use ($subject) {return $subject;})
+                ->_createValidationException()
                 ->new($message);
 
         return $mock;
@@ -83,10 +84,33 @@ class AbstractValidatorTest extends TestCase
     public function testIsValid()
     {
         $subject = $this->createInstance();
-        $me = $this;
 
         $reflection = $this->reflect($subject);
         $this->assertTrue($reflection->_isValid(true), 'Valid value not validated correctly');
         $this->assertFalse($reflection->_isValid(false), 'Invalid value not validated correctly');
+    }
+
+    /**
+     * Tests whether failed validation throws a correctly populated exception.
+     *
+     * @since [*next-version*]
+     */
+    public function testValidate()
+    {
+        $subject = $this->createInstance();
+        $reflection = $this->reflect($subject);
+        $value = uniqid('subject-');
+
+        try {
+            $reflection->_validate($value);
+        } catch (\Exception $e) {
+            $this->assertSame($e->getSubject(), $value, 'Validation exception must keep track of invalid subject');
+            $errors = $e->getValidationErrors();
+            $this->assertNotEmpty($errors, 'Validation exception must provide some error text');
+
+            return;
+        }
+
+        $this->assertTrue(false, 'Validation was supposed to fail');
     }
 }

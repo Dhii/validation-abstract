@@ -37,11 +37,12 @@ abstract class AbstractValidator
      * @param string                                     $message
      * @param int                                        $code
      * @param \Exception                                 $previous
+     * @param mixed                                      $subject The subject that has failed validation.
      * @param string[]|StringableInterface[]|Traversable $validationErrors The errors that are to be associated with the new exception.
      *
      * @return ValidationFailedExceptionInterface The new exception.
      */
-    abstract protected function _createValidationFailedException($message, $code = 0, \Exception $previous = null, $validationErrors = array());
+    abstract protected function _createValidationFailedException($message, $code = 0, \Exception $previous = null, $subject = null, $validationErrors = array());
 
     /**
      * Validates a subject.
@@ -59,7 +60,7 @@ abstract class AbstractValidator
             return;
         }
 
-        throw $this->_createValidationFailedException('Validation failed', 0, null, $errors);
+        throw $this->_createValidationFailedException('Validation failed', 0, null, $subject, $errors);
     }
 
     /**
