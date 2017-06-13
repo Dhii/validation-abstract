@@ -34,7 +34,7 @@ class AbstractValidatorTest extends TestCase
                 ->_createValidationFailedException(function ($message, $code = 0, $exception = null, $subject, $errors) use (&$me) {
                     return $me->createValidationFailedException($message, $code, $exception, $subject, $errors);
                 })
-                ->_getValidationErrors(function($subject) {
+                ->_getValidationErrors(function ($subject) {
                     if ($subject !== true) {
                         return array('Subject must be a boolean `true` value');
                     }
