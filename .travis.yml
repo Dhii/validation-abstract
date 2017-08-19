@@ -1,4 +1,5 @@
 language: php
+dist: precise
 php:
   - '5.3'
   - '5.4'
@@ -15,7 +16,7 @@ script:
   - vendor/bin/phpunit
 
 after_script:
-    - vendor/bin/test-reporter --coverage-report="test/coverage/clover.xml"
+  - vendor/bin/test-reporter --coverage-report="test/coverage/clover.xml"
 cache:
   directories:
     - $HOME/.composer/cache/files
