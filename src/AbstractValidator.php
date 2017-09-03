@@ -4,6 +4,8 @@ namespace Dhii\Validation;
 
 use Traversable;
 use Countable;
+use Exception as RootException;
+use Dhii\Util\String\StringableInterface as Stringable;
 use Dhii\Validation\Exception\ValidationExceptionInterface;
 use Dhii\Validation\Exception\ValidationFailedExceptionInterface;
 
@@ -29,31 +31,31 @@ abstract class AbstractValidator
      * Creates a new validation exception.
      *
      * @since 0.1
-     * @see \Exception::__construct()
+     * @see RootException::__construct()
      *
-     * @param string     $message
-     * @param int        $code
-     * @param \Exception $previous
+     * @param string        $message
+     * @param int           $code
+     * @param RootException $previous
      *
      * @return ValidationExceptionInterface The new exception.
      */
-    abstract protected function _createValidationException($message, $code = 0, \Exception $previous = null);
+    abstract protected function _createValidationException($message, $code = 0, RootException $previous = null);
 
     /**
      * Creates a new validation failed exception.
      *
      * @since 0.1
-     * @see \Exception::__construct()
+     * @see RootException::__construct()
      *
-     * @param string                                     $message
-     * @param int                                        $code
-     * @param \Exception                                 $previous
-     * @param mixed                                      $subject The subject that has failed validation.
-     * @param string[]|StringableInterface[]|Traversable $validationErrors The errors that are to be associated with the new exception.
+     * @param string                            $message
+     * @param int                               $code
+     * @param RootException                     $previous
+     * @param mixed                             $subject The subject that has failed validation.
+     * @param string[]|Stringable[]|Traversable $validationErrors The errors that are to be associated with the new exception.
      *
      * @return ValidationFailedExceptionInterface The new exception.
      */
-    abstract protected function _createValidationFailedException($message, $code = 0, \Exception $previous = null, $subject = null, $validationErrors = array());
+    abstract protected function _createValidationFailedException($message, $code = 0, RootException $previous = null, $subject = null, $validationErrors = array());
 
     /**
      * Validates a subject.

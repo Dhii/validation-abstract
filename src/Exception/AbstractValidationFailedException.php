@@ -3,6 +3,7 @@
 namespace Dhii\Validation\Exception;
 
 use Traversable;
+use Exception as RootException;
 
 /**
  * Common functionality for validation exceptions.
@@ -112,15 +113,15 @@ abstract class AbstractValidationFailedException extends AbstractValidationExcep
      * Creates a new instance of a validation exception.
      *
      * @since 0.1
-     * @see \Exception::__construct()
+     * @see RootException::__construct()
      *
-     * @param string     $message
-     * @param int        $code
-     * @param \Exception $previous An inner exception, if any.
+     * @param string        $message
+     * @param int           $code
+     * @param RootException $previous An inner exception, if any.
      *
      * @return ValidationExceptionInterface
      */
-    abstract protected function _createValidationException($message, $code = 0, \Exception $previous = null);
+    abstract protected function _createValidationException($message, $code = 0, RootException $previous = null);
 
     /**
      * Determines if the given list is valid.
