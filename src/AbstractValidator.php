@@ -71,7 +71,7 @@ abstract class AbstractValidator
             return;
         }
 
-        throw $this->_createValidationFailedException('Validation failed', 0, null, $subject, $errors);
+        throw $this->_createValidationFailedException($this->__('Validation failed'), 0, null, $subject, $errors);
     }
 
     /**
@@ -105,4 +105,18 @@ abstract class AbstractValidator
 
         return true;
     }
+
+    /**
+     * Translates a string, and replaces placeholders.
+     *
+     * @since [*next-version*]
+     * @see sprintf()
+     *
+     * @param string $string  The format string to translate.
+     * @param array  $args    Placeholder values to replace in the string.
+     * @param mixed  $context The context for translation.
+     *
+     * @return string The translated string.
+     */
+    abstract protected function __($string, $args = array(), $context = null);
 }

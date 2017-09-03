@@ -41,6 +41,9 @@ class AbstractValidatorTest extends TestCase
 
                     return array();
                 })
+                ->__(function($string) {
+                    return $string;
+                })
                 ->new();
 
         return $mock;
