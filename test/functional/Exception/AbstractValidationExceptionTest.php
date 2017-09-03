@@ -3,9 +3,10 @@
 namespace Dhii\Validation\FuncTest;
 
 use Xpmock\TestCase;
+use Dhii\Validation\Exception\AbstractValidationException as TestSubject;
 
 /**
- * Tests {@see Dhii\Validation\Exception\AbstractValidationException}.
+ * Tests {@see TestSubject}.
  *
  * @since 0.1
  */
@@ -16,14 +17,14 @@ class AbstractValidationExceptionTest extends TestCase
      *
      * @since 0.1
      */
-    const TEST_SUBJECT_CLASSNAME = 'Dhii\\Validation\\Exception\\AbstractValidationException';
+    const TEST_SUBJECT_CLASSNAME = 'Dhii\Validation\Exception\AbstractValidationException';
 
     /**
      * Creates a new instance of the test subject.
      *
      * @since 0.1
      *
-     * @return AbstractValidationException
+     * @return TestSubject
      */
     public function createInstance()
     {

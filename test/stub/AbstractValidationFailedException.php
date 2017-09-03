@@ -17,13 +17,14 @@ abstract class AbstractValidationFailedException extends BaseFailedException imp
     /**
      * @since [*next-version*]
      *
-     * @param string $message
-     * @param int $code
+     * @param string    $message
+     * @param int       $code
      * @param Exception $previous
-     * @param mixced $subject The validation subject
-     * @param array $errors The error list.
+     * @param mixed     $subject  The validation subject
+     * @param array     $errors   The error list.
      */
-    public function __construct($message = '', $code = 0, Exception $previous = null, $subject = null, $errors = array()) {
+    public function __construct($message = '', $code = 0, Exception $previous = null, $subject = null, $errors = array())
+    {
         parent::__construct($message, $code, $previous);
         $this->_setValidationErrors($errors);
         $this->_setValidationSubject($subject);

@@ -3,9 +3,10 @@
 namespace Dhii\Validation\FuncTest;
 
 use Xpmock\TestCase;
+use Dhii\Validation\Exception\AbstractValidationFailedException as TestSubject;
 
 /**
- * Tests {@see Dhii\Validation\AbstractValidationFailedException}.
+ * Tests {@see TestSubject}.
  *
  * @since 0.1
  */
@@ -16,21 +17,21 @@ class AbstractValidationFailedExceptionTest extends TestCase
      *
      * @since 0.1
      */
-    const TEST_SUBJECT_CLASSNAME = 'Dhii\\Validation\\Exception\\AbstractValidationFailedException';
+    const TEST_SUBJECT_CLASSNAME = 'Dhii\Validation\Exception\AbstractValidationFailedException';
 
     /**
      * Creates a new instance of the test subject.
      *
      * @since 0.1
      *
-     * @return AbstractValidationFailedException
+     * @return TestSubject
      */
     public function createInstance()
     {
         $me = $this;
         $mock = $this->mock(static::TEST_SUBJECT_CLASSNAME)
                 ->_createValidationException(function ($message) use (&$me) {
-                    return $me->mock('Dhii\\Validation\\TestStub\\AbstractValidationException')
+                    return $me->mock('Dhii\Validation\TestStub\AbstractValidationException')
                             ->new($message);
                 })
                 ->new();

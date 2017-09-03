@@ -3,10 +3,10 @@
 namespace Dhii\Validation\FuncTest;
 
 use Xpmock\TestCase;
-use Dhii\Validation\Exception\ValidationFailedExceptionInterface;
+use Dhii\Validation\Exception\ValidationFailedExceptionInterface as TestSubject;
 
 /**
- * Tests {@see Dhii\Validation\AbstractValidator}.
+ * Tests {@see TestSubject}.
  *
  * @since 0.1
  */
@@ -17,14 +17,14 @@ class AbstractValidatorTest extends TestCase
      *
      * @since 0.1
      */
-    const TEST_SUBJECT_CLASSNAME = 'Dhii\\Validation\\AbstractValidator';
+    const TEST_SUBJECT_CLASSNAME = 'Dhii\Validation\AbstractValidator';
 
     /**
      * Creates a new instance of the test subject.
      *
      * @since 0.1
      *
-     * @return AbstractValidator
+     * @return TestSubject
      */
     public function createInstance()
     {
@@ -41,7 +41,7 @@ class AbstractValidatorTest extends TestCase
 
                     return array();
                 })
-                ->__(function($string) {
+                ->__(function ($string) {
                     return $string;
                 })
                 ->new();
@@ -58,9 +58,9 @@ class AbstractValidatorTest extends TestCase
      */
     public function createValidationFailedException($message, $code = 0, $previous = null, $subject = null, $errors = array())
     {
-        $mock = $this->mock('Dhii\\Validation\\TestStub\\AbstractValidationFailedException')
-                ->getValidationErrors(function() use ($errors) {return $errors;})
-                ->getSubject(function() use ($subject) {return $subject;})
+        $mock = $this->mock('Dhii\Validation\TestStub\AbstractValidationFailedException')
+                ->getValidationErrors(function () use ($errors) {return $errors;})
+                ->getSubject(function () use ($subject) {return $subject;})
                 ->_createValidationException()
                 ->new($message);
 
