@@ -40,11 +40,11 @@ trait SpecAwareTrait
      *
      * @since [*next-version*]
      *
-     * @param array|Traversable $spec The spec.
+     * @param array|Traversable|null $spec The spec.
      */
     protected function _setSpec($spec)
     {
-        if (!is_array($spec) && !($spec instanceof Traversable)) {
+        if (!is_null($spec) && !is_array($spec) && !($spec instanceof Traversable)) {
             throw $this->_createInvalidArgumentException($this->__('Invalid specification'), null, null, $spec);
         }
 
