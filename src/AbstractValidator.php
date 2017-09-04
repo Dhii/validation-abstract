@@ -33,13 +33,13 @@ abstract class AbstractValidator
      * @since 0.1
      * @see RootException::__construct()
      *
-     * @param string        $message
-     * @param int           $code
-     * @param RootException $previous
+     * @param string|Stringable|null $message  The message, if any
+     * @param int|null               $code     The error code, if any.
+     * @param RootException|null     $previous The inner exception, if any.
      *
      * @return ValidationExceptionInterface The new exception.
      */
-    abstract protected function _createValidationException($message, $code = 0, RootException $previous = null);
+    abstract protected function _createValidationException($message = null, $code = null, RootException $previous = null);
 
     /**
      * Creates a new validation failed exception.
@@ -47,15 +47,15 @@ abstract class AbstractValidator
      * @since 0.1
      * @see RootException::__construct()
      *
-     * @param string                            $message
-     * @param int                               $code
-     * @param RootException                     $previous
-     * @param mixed                             $subject The subject that has failed validation.
-     * @param string[]|Stringable[]|Traversable $validationErrors The errors that are to be associated with the new exception.
+     * @param string|Stringable|null            $message          The error message, if any.
+     * @param int|null                          $code             The error code, if any.
+     * @param RootException|null                $previous         The inner exception, if any.
+     * @param mixed|null                        $subject          The subject that has failed validation, if any.
+     * @param string[]|Stringable[]|Traversable $validationErrors The errors that are to be associated with the new exception, if any.
      *
      * @return ValidationFailedExceptionInterface The new exception.
      */
-    abstract protected function _createValidationFailedException($message, $code = 0, RootException $previous = null, $subject = null, $validationErrors = array());
+    abstract protected function _createValidationFailedException($message = null, $code = null, RootException $previous = null, $subject = null, $validationErrors = array());
 
     /**
      * Validates a subject.
