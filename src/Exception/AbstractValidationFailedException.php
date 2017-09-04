@@ -98,7 +98,7 @@ abstract class AbstractValidationFailedException extends AbstractValidationExcep
      *
      * @throws AbstractValidationException If list is invalid.
      *
-     * @return AbstractSourceValidationFailureException This instance.
+     * @return AbstractValidationFailedException This instance.
      */
     protected function _assertList($list)
     {
