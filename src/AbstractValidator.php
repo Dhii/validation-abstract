@@ -73,7 +73,7 @@ abstract class AbstractValidator
             return;
         }
 
-        throw $this->_createValidationFailedException($this->__('Validation failed'), 0, null, $subject, $errors);
+        throw $this->_createValidationFailedException($this->__('Validation failed'), null, null, $this, $subject, $errors);
     }
 
     /**
