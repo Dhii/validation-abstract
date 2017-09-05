@@ -12,7 +12,8 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^5.3 | ^7.0"
+        "php": "^5.3 | ^7.0",
+        "dhii/validation-interface": "dev-release/0.2"
     },
     "suggest": {
         "dhii/stringable-interface": "To be able to pass stringable objects instead of strings"
@@ -22,7 +23,6 @@
         "phpunit/phpunit": "^4.8",
         "ptrofimov/xpmock": "^1.1",
         "codeclimate/php-test-reporter": "<=0.3.2",
-        "dhii/validation-interface": "^0.1",
         "dhii/stringable-interface": "^0.1"
     },
     "autoload": {
