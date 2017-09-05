@@ -47,15 +47,15 @@ abstract class AbstractValidator
      * @since 0.1
      * @see RootException::__construct()
      *
-     * @param string|Stringable|null            $message          The error message, if any.
-     * @param int|null                          $code             The error code, if any.
-     * @param RootException|null                $previous         The inner exception, if any.
-     * @param mixed|null                        $subject          The subject that has failed validation, if any.
-     * @param string[]|Stringable[]|Traversable $validationErrors The errors that are to be associated with the new exception, if any.
+     * @param string|Stringable|null                 $message          The error message, if any.
+     * @param int|null                               $code             The error code, if any.
+     * @param RootException|null                     $previous         The inner exception, if any.
+     * @param mixed|null                             $subject          The subject that has failed validation, if any.
+     * @param string[]|Stringable[]|Traversable|null $validationErrors The errors that are to be associated with the new exception, if any.
      *
      * @return ValidationFailedExceptionInterface The new exception.
      */
-    abstract protected function _createValidationFailedException($message = null, $code = null, RootException $previous = null, $subject = null, $validationErrors = array());
+    abstract protected function _createValidationFailedException($message = null, $code = null, RootException $previous = null, $subject = null, $validationErrors = null);
 
     /**
      * Validates a subject.
