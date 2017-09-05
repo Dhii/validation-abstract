@@ -28,8 +28,8 @@ class AbstractValidationExceptionTest extends TestCase
      */
     public function createInstance()
     {
-        $me = $this;
         $mock = $this->mock(static::TEST_SUBJECT_CLASSNAME)
+                ->getValidator()
                 ->new();
 
         return $mock;

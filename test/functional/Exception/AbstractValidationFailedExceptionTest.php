@@ -34,6 +34,7 @@ class AbstractValidationFailedExceptionTest extends TestCase
                     return $me->mock('Dhii\Validation\TestStub\AbstractValidationException')
                             ->new($message);
                 })
+                ->getValidator()
                 ->new();
 
         return $mock;
