@@ -19,7 +19,7 @@ trait SpecAwareTrait
      *
      * @since [*next-version*]
      *
-     * @var mixed
+     * @var array|Traversable|null
      */
     protected $spec;
 
@@ -28,7 +28,7 @@ trait SpecAwareTrait
      *
      * @since [*next-version*]
      *
-     * @return array|Traversable The spec.
+     * @return array|Traversable|null The spec.
      */
     protected function _getSpec()
     {
