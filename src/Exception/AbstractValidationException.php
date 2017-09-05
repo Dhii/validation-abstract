@@ -9,7 +9,7 @@ use Exception as RootException;
  *
  * @since 0.1
  */
-class AbstractValidationException extends RootException
+abstract class AbstractValidationException extends RootException
 {
     /**
      * Parameter-less constructor.
