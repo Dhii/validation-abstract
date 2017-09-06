@@ -112,6 +112,7 @@ class AbstractValidatorTest extends TestCase
         try {
             $reflection->_validate($value);
         } catch (ValidationFailedExceptionInterface $e) {
+            $this->assertSame($subject, $e->getValidator(), 'Validator exception must keep track of the validator');
             $this->assertSame($e->getSubject(), $value, 'Validation exception must keep track of invalid subject');
             $errors = $e->getValidationErrors();
             $this->assertNotEmpty($errors, 'Validation exception must provide some error text');
