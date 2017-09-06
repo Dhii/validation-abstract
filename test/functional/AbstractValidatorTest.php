@@ -32,8 +32,8 @@ class AbstractValidatorTest extends TestCase
         $me = $this;
         $mock = $this->mock(static::TEST_SUBJECT_CLASSNAME)
                 ->_createValidationException()
-                ->_createValidationFailedException(function ($message = null, $code = null, $exception = null, $validator = null, $subject = null, $errors = null) use (&$me) {
-                    return $me->createValidationFailedException($message, $code, $exception, $validator, $subject, $errors);
+                ->_createValidationFailedException(function ($message = null, $code = null, $exception = null, $subject = null, $errors = null) use (&$me) {
+                    return $me->createValidationFailedException($message, $code, $exception, $this, $subject, $errors);
                 })
                 ->_getValidationErrors(function ($subject) {
                     if ($subject !== true) {
