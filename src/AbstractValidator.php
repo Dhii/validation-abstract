@@ -69,7 +69,8 @@ abstract class AbstractValidator
     protected function _validate($subject)
     {
         $errors = $this->_getValidationErrors($subject);
-        if (!count($errors)) {
+
+        if (!$this->_countIterable($errors)) {
             return;
         }
 
@@ -84,9 +85,22 @@ abstract class AbstractValidator
      *
      * @since [*next-version*]
      *
-     * @return Countable|Traversable The list of validation errors.
+     * @return string[]|Stringable[]|Traversable The list of validation errors.
      */
     abstract protected function _getValidationErrors($subject);
+
+    /**
+     * Retrieves the number of elements in the iterable.
+     *
+     * Does not guarantee that the internal pointer of the iterable is preserved.
+     *
+     * @param array|Traversable $iterable The iterable to count.
+     *
+     * @since [*next-version*]
+     *
+     * @return int The count.
+     */
+    abstract protected function _countIterable($iterable);
 
     /**
      * Determines whether the subject is valid.

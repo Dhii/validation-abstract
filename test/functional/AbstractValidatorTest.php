@@ -45,6 +45,7 @@ class AbstractValidatorTest extends TestCase
                 ->__(function ($string) {
                     return $string;
                 })
+                ->_countIterable($this->returnCallback(function ($iterable) { return count($iterable); }))
                 ->new();
 
         return $mock;
