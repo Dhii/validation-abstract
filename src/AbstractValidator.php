@@ -85,6 +85,7 @@ abstract class AbstractValidator
      * @since [*next-version*]
      *
      * @return string[]|Stringable[]|Traversable The list of validation errors.
+     *                                           Must be finite.
      */
     abstract protected function _getValidationErrors($subject);
 
