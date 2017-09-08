@@ -69,7 +69,7 @@ class SpecAwareTraitTest extends TestCase
      *
      * @since [*next-version*]
      */
-    public function testSetGetValidator()
+    public function testSetGetSpec()
     {
         $subject = $this->createInstance();
         $_subject = $this->reflect($subject);
@@ -86,7 +86,7 @@ class SpecAwareTraitTest extends TestCase
      *
      * @since [*next-version*]
      */
-    public function testSetValidatorFailure()
+    public function testSetSpecFailure()
     {
         $subject = $this->createInstance();
         $_subject = $this->reflect($subject);
