@@ -4,6 +4,7 @@ namespace Dhii\Validation;
 
 use Traversable;
 use Dhii\Validation\Exception\ValidationFailedExceptionInterface;
+use Dhii\Util\String\StringableInterface as Stringable;
 
 /**
  * Common functionality for composite validators.
