@@ -42,4 +42,15 @@ abstract class AbstractCompositeValidator extends AbstractValidator
 
         return $this->_normalizeErrorList($errors);
     }
+
+    /**
+     * Normalizes a list of lists of {@see Stringable} validation errors into a flat list of such errors.
+     *
+     * @param array[]|Traversable $errorList The list of errors to normalize.
+     *
+     * @since [*next-version*]
+     *
+     * @return string[]|Stringable[]|Traversable The flat list of validation errors.
+     */
+    abstract protected function _normalizeErrorList($errorList);
 }
