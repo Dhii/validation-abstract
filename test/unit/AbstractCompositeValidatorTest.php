@@ -162,7 +162,7 @@ class AbstractCompositeValidatorTest extends TestCase
      *
      * @since [*next-version*]
      */
-    public function _testValidateFailure()
+    public function testValidateFailure()
     {
         // 4 validatos, one passes, the rest fail
         $data = [
@@ -176,7 +176,7 @@ class AbstractCompositeValidatorTest extends TestCase
         $subject = $this->createInstance($children);
         $_subject = $this->reflect($subject);
 
-        $errors = iterator_to_array($_subject->_getValidationErrors(), false);
+        $errors = iterator_to_array($_subject->_getValidationErrors(uniqid()), false);
         $this->assertEquals($messages, $errors, 'Validation error message list is wrong', 0.0, 10, true);
     }
 }
