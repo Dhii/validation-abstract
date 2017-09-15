@@ -4,9 +4,10 @@ namespace Dhii\Validation\FuncTest;
 
 use Xpmock\TestCase;
 use Dhii\Validation\Exception\ValidationFailedExceptionInterface;
+use Dhii\Validation\Exception\AbstractValidator as TestSubject;
 
 /**
- * Tests {@see Dhii\Validation\AbstractValidator}.
+ * Tests {@see TestSubject}.
  *
  * @since 0.1
  */
@@ -17,22 +18,22 @@ class AbstractValidatorTest extends TestCase
      *
      * @since 0.1
      */
-    const TEST_SUBJECT_CLASSNAME = 'Dhii\\Validation\\AbstractValidator';
+    const TEST_SUBJECT_CLASSNAME = 'Dhii\Validation\AbstractValidator';
 
     /**
      * Creates a new instance of the test subject.
      *
      * @since 0.1
      *
-     * @return AbstractValidator
+     * @return TestSubject
      */
     public function createInstance()
     {
         $me = $this;
         $mock = $this->mock(static::TEST_SUBJECT_CLASSNAME)
                 ->_createValidationException()
-                ->_createValidationFailedException(function ($message, $code = 0, $exception = null, $subject, $errors) use (&$me) {
-                    return $me->createValidationFailedException($message, $code, $exception, $subject, $errors);
+                ->_createValidationFailedException(function ($message = null, $code = null, $exception = null, $subject = null, $errors = null) use (&$me) {
+                    return $me->createValidationFailedException($message, $code, $exception, $this, $subject, $errors);
                 })
                 ->_getValidationErrors(function ($subject) {
                     if ($subject !== true) {
@@ -41,6 +42,10 @@ class AbstractValidatorTest extends TestCase
 
                     return array();
                 })
+                ->__(function ($string) {
+                    return $string;
+                })
+                ->_countIterable($this->returnCallback(function ($iterable) { return count($iterable); }))
                 ->new();
 
         return $mock;
@@ -53,13 +58,16 @@ class AbstractValidatorTest extends TestCase
      *
      * @return ValidationFailedExceptionInterface
      */
-    public function createValidationFailedException($message, $code = 0, $previous = null, $subject = null, $errors = array())
+    public function createValidationFailedException($message = null, $code = null, $previous = null, $validator = null, $subject = null, $errors = null)
     {
-        $mock = $this->mock('Dhii\\Validation\\TestStub\\AbstractValidationFailedException')
-                ->getValidationErrors(function() use ($errors) {return $errors;})
-                ->getSubject(function() use ($subject) {return $subject;})
-                ->_createValidationException()
-                ->new($message);
+        $mock = $this->mock('Dhii\Validation\TestStub\AbstractValidationFailedException')
+                ->getValidator($this->returnValue($validator))
+                ->getValidationErrors(function () use ($errors) {return $errors;})
+                ->getSubject(function () use ($subject) {return $subject;})
+                ->getMessage($this->returnValue($message))
+                ->getCode($this->returnValue($code))
+                ->getPrevious($this->returnValue($previous))
+                ->new();
 
         return $mock;
     }
@@ -103,7 +111,8 @@ class AbstractValidatorTest extends TestCase
 
         try {
             $reflection->_validate($value);
-        } catch (\Exception $e) {
+        } catch (ValidationFailedExceptionInterface $e) {
+            $this->assertSame($subject, $e->getValidator(), 'Validator exception must keep track of the validator');
             $this->assertSame($e->getSubject(), $value, 'Validation exception must keep track of invalid subject');
             $errors = $e->getValidationErrors();
             $this->assertNotEmpty($errors, 'Validation exception must provide some error text');

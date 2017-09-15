@@ -3,7 +3,8 @@
 namespace Dhii\Validation;
 
 use Traversable;
-use Countable;
+use Exception as RootException;
+use Dhii\Util\String\StringableInterface as Stringable;
 use Dhii\Validation\Exception\ValidationExceptionInterface;
 use Dhii\Validation\Exception\ValidationFailedExceptionInterface;
 
@@ -29,31 +30,31 @@ abstract class AbstractValidator
      * Creates a new validation exception.
      *
      * @since 0.1
-     * @see \Exception::__construct()
+     * @see RootException::__construct()
      *
-     * @param string     $message
-     * @param int        $code
-     * @param \Exception $previous
+     * @param string|Stringable|null $message  The message, if any
+     * @param int|null               $code     The error code, if any.
+     * @param RootException|null     $previous The inner exception, if any.
      *
      * @return ValidationExceptionInterface The new exception.
      */
-    abstract protected function _createValidationException($message, $code = 0, \Exception $previous = null);
+    abstract protected function _createValidationException($message = null, $code = null, RootException $previous = null);
 
     /**
      * Creates a new validation failed exception.
      *
      * @since 0.1
-     * @see \Exception::__construct()
+     * @see RootException::__construct()
      *
-     * @param string                                     $message
-     * @param int                                        $code
-     * @param \Exception                                 $previous
-     * @param mixed                                      $subject The subject that has failed validation.
-     * @param string[]|StringableInterface[]|Traversable $validationErrors The errors that are to be associated with the new exception.
+     * @param string|Stringable|null                 $message          The error message, if any.
+     * @param int|null                               $code             The error code, if any.
+     * @param RootException|null                     $previous         The inner exception, if any.
+     * @param mixed|null                             $subject          The subject that has failed validation, if any.
+     * @param string[]|Stringable[]|Traversable|null $validationErrors The errors that are to be associated with the new exception, if any.
      *
      * @return ValidationFailedExceptionInterface The new exception.
      */
-    abstract protected function _createValidationFailedException($message, $code = 0, \Exception $previous = null, $subject = null, $validationErrors = array());
+    abstract protected function _createValidationFailedException($message = null, $code = null, RootException $previous = null, $subject = null, $validationErrors = null);
 
     /**
      * Validates a subject.
@@ -67,11 +68,12 @@ abstract class AbstractValidator
     protected function _validate($subject)
     {
         $errors = $this->_getValidationErrors($subject);
-        if (!count($errors)) {
+
+        if (!$this->_countIterable($errors)) {
             return;
         }
 
-        throw $this->_createValidationFailedException('Validation failed', 0, null, $subject, $errors);
+        throw $this->_createValidationFailedException($this->__('Validation failed'), null, null, $subject, $errors);
     }
 
     /**
@@ -82,9 +84,23 @@ abstract class AbstractValidator
      *
      * @since [*next-version*]
      *
-     * @return Countable|Traversable The list of validation errors.
+     * @return string[]|Stringable[]|Traversable The list of validation errors.
+     *                                           Must be finite.
      */
     abstract protected function _getValidationErrors($subject);
+
+    /**
+     * Retrieves the number of elements in the iterable.
+     *
+     * Does not guarantee that the internal pointer of the iterable is preserved.
+     *
+     * @param array|Traversable $iterable The iterable to count.
+     *
+     * @since [*next-version*]
+     *
+     * @return int The count.
+     */
+    abstract protected function _countIterable($iterable);
 
     /**
      * Determines whether the subject is valid.
@@ -105,4 +121,18 @@ abstract class AbstractValidator
 
         return true;
     }
+
+    /**
+     * Translates a string, and replaces placeholders.
+     *
+     * @since [*next-version*]
+     * @see sprintf()
+     *
+     * @param string $string  The format string to translate.
+     * @param array  $args    Placeholder values to replace in the string.
+     * @param mixed  $context The context for translation.
+     *
+     * @return string The translated string.
+     */
+    abstract protected function __($string, $args = array(), $context = null);
 }

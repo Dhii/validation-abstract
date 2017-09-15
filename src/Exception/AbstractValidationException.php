@@ -2,12 +2,14 @@
 
 namespace Dhii\Validation\Exception;
 
+use Exception as RootException;
+
 /**
  * Common functionality for validation exceptions.
  *
  * @since 0.1
  */
-class AbstractValidationException extends \Exception
+abstract class AbstractValidationException extends RootException
 {
     /**
      * Parameter-less constructor.
