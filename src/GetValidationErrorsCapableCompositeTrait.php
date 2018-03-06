@@ -26,13 +26,14 @@ trait GetValidationErrorsCapableCompositeTrait
      *
      * @since [*next-version*]
      *
+     * @throws InvalidArgumentException If the spec not a valid list.
      * @throws OutOfRangeException If one of the child validators is not a validator.
      * @throws ValidationExceptionInterface If problem validating.
      */
     protected function _getValidationErrors($subject, $spec = null)
     {
         if (!is_null($spec)) {
-            $spec = $this->_normalizeValidationSpec($spec);
+            $spec = $this->_normalizeIterable($spec);
         }
 
         $errors = array();
@@ -77,17 +78,19 @@ trait GetValidationErrorsCapableCompositeTrait
     abstract protected function _normalizeErrorList($errorList);
 
     /**
-     * Normalizes a validation specification.
+     * Normalizes an iterable.
+     *
+     * Makes sure that the return value can be iterated over.
      *
      * @since [*next-version*]
      *
-     * @param array|Traversable|stdClass $spec
+     * @param mixed $iterable The iterable to normalize.
      *
-     * @throws InvalidArgumentException If not a valid list of criteria.
+     * @throws InvalidArgumentException If the iterable could not be normalized.
      *
-     * @return array|Traversable|stdClass A list of validation criteria.
+     * @return array|Traversable|stdClass The normalized iterable.
      */
-    abstract protected function _normalizeValidationSpec($spec);
+    abstract protected function _normalizeIterable($iterable);
 
     /**
      * Creates a new Out Of Range exception.
