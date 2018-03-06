@@ -46,6 +46,8 @@ trait ChildValidatorsAwareTrait
      * @since [*next-version*]
      *
      * @param ValidatorInterface[]|Traversable|stdClass $validators A list of validators.
+     *
+     * @throws InvalidArgumentException If the validators list is invalid.
      */
     protected function _setChildValidators($validators)
     {
@@ -68,25 +70,6 @@ trait ChildValidatorsAwareTrait
      * @return array|Traversable|stdClass The normalized iterable.
      */
     abstract protected function _normalizeIterable($iterable);
-
-    /**
-     * Creates a new Invalid Argument exception.
-     *
-     * @since [*next-version*]
-     *
-     * @param string|Stringable|null $message  The error message, if any.
-     * @param int|null               $code     The error code, if any.
-     * @param RootException|null     $previous The inner exception for chaining, if any.
-     * @param mixed|null             $argument The invalid argument, if any.
-     *
-     * @return InvalidArgumentException The new exception.
-     */
-    abstract protected function _createInvalidArgumentException(
-            $message = null,
-            $code = null,
-            RootException $previous = null,
-            $argument = null
-    );
 
     /**
      * Translates a string, and replaces placeholders.
