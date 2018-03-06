@@ -38,16 +38,16 @@ trait GetValidationErrorsCapableCompositeTrait
 
         $errors = array();
         foreach ($this->_getChildValidators() as $_idx => $_validator) {
-            if (!($_validator instanceof ValidatorInterface)) {
-                throw $this->_createOutOfRangeException($this->__('Validator %1$s is invalid', [$_idx]), null, null, $_validator);
-            }
 
             try {
                 if ($_validator instanceof SpecValidatorInterface) {
                     $_validator->validate($subject, $spec);
                 }
-                else {
+                elseif ($_validator instanceof ValidatorInterface) {
                     $_validator->validate($subject);
+                }
+                else {
+                    throw $this->_createOutOfRangeException($this->__('Validator %1$s is invalid', [$_idx]), null, null, $_validator);
                 }
             } catch (ValidationFailedExceptionInterface $e) {
                 $errors[] = $e->getValidationErrors();
