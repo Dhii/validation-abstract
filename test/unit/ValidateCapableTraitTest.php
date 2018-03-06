@@ -2,6 +2,8 @@
 
 namespace Dhii\Validation\UnitTest;
 
+use Dhii\Validation\Exception\ValidationExceptionInterface;
+use Dhii\Validation\Exception\ValidationFailedExceptionInterface;
 use Dhii\Validation\ValidateCapableTrait as TestSubject;
 
 use Xpmock\TestCase;
@@ -112,6 +114,42 @@ class ValidateCapableTraitTest extends TestCase
     }
 
     /**
+     * Creates a new Validation exception.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $message The exception message.
+     *
+     * @return RootException|ValidationExceptionInterface|MockObject The new exception.
+     */
+    public function createValidationException($message = '')
+    {
+        $mock = $this->mockClassAndInterfaces('Exception', ['Dhii\Validation\Exception\ValidationExceptionInterface'])
+            ->setConstructorArgs([$message])
+            ->getMock();
+
+        return $mock;
+    }
+
+    /**
+     * Creates a new Validation Failed exception.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $message The exception message.
+     *
+     * @return RootException|ValidationFailedExceptionInterface|MockObject The new exception.
+     */
+    public function createValidationFailedException($message = '')
+    {
+        $mock = $this->mockClassAndInterfaces('Exception', ['Dhii\Validation\Exception\ValidationFailedExceptionInterface'])
+            ->setConstructorArgs([$message])
+            ->getMock();
+
+        return $mock;
+    }
+
+    /**
      * Tests whether a valid instance of the test subject can be created.
      *
      * @since [*next-version*]
@@ -149,6 +187,77 @@ class ValidateCapableTraitTest extends TestCase
             ->with($errors)
             ->will($this->returnValue(count($errors)));
 
+        $_subject->_validate($val, $spec);
+    }
+
+    /**
+     * Tests that `_validate()` works as expected when subject is invalid.
+     *
+     * @since [*next-version*]
+     */
+    public function testValidateInvalid()
+    {
+        $val = uniqid('val');
+        $spec = [uniqid('criterion')];
+        $errors = [uniqid('validation-error')];
+        $exception = $this->createValidationFailedException('Subject is invalid');
+        $subject = $this->createInstance(['_getValidationErrors', '_countIterable', '_throwValidationFailedException']);
+        $_subject = $this->reflect($subject);
+
+        $subject->expects($this->exactly(1))
+            ->method('_getValidationErrors')
+            ->with($val, $spec)
+            ->will($this->returnValue($errors));
+        $subject->expects($this->exactly(1))
+            ->method('_countIterable')
+            ->with($errors)
+            ->will($this->returnValue(count($errors)));
+        $subject->expects($this->exactly(1))
+            ->method('_throwValidationFailedException')
+            ->with(
+                $this->isType('string'),
+                null,
+                null,
+                $this->isTrue(),
+                $val,
+                $errors
+            )
+            ->will($this->throwException($exception));
+
+        $this->setExpectedException('Dhii\Validation\Exception\ValidationFailedExceptionInterface');
+        $_subject->_validate($val, $spec);
+    }
+
+    /**
+     * Tests that `_validate()` fails as expected when there is a problem validating.
+     *
+     * @since [*next-version*]
+     */
+    public function testValidateFailureProblemValidating()
+    {
+        $val = uniqid('val');
+        $spec = [uniqid('criterion')];
+        $errors = [uniqid('validation-error')];
+        $innerException = $this->createException('Something went wrong');
+        $exception = $this->createValidationException('Problem validating');
+        $subject = $this->createInstance(['_getValidationErrors', '_countIterable', '_throwValidationException']);
+        $_subject = $this->reflect($subject);
+
+        $subject->expects($this->exactly(1))
+            ->method('_getValidationErrors')
+            ->with($val, $spec)
+            ->will($this->throwException($innerException));
+        $subject->expects($this->exactly(1))
+            ->method('_throwValidationException')
+            ->with(
+                $this->isType('string'),
+                null,
+                $innerException,
+                $this->isTrue()
+            )
+            ->will($this->throwException($exception));
+
+        $this->setExpectedException('Dhii\Validation\Exception\ValidationExceptionInterface');
         $_subject->_validate($val, $spec);
     }
 }
