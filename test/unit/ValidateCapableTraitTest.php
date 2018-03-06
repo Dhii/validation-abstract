@@ -132,7 +132,7 @@ class ValidateCapableTraitTest extends TestCase
      *
      * @since [*next-version*]
      */
-    public function testValidate()
+    public function testValidateValid()
     {
         $val = uniqid('val');
         $spec = null;
@@ -147,7 +147,7 @@ class ValidateCapableTraitTest extends TestCase
         $subject->expects($this->exactly(1))
             ->method('_countIterable')
             ->with($errors)
-            ->will($this->returnValue(0));
+            ->will($this->returnValue(count($errors)));
 
         $_subject->_validate($val, $spec);
     }
