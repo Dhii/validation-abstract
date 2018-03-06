@@ -74,8 +74,8 @@ class ValidateCapableTraitTest extends TestCase
      *
      * @since [*next-version*]
      *
-     * @param string $className      Name of the class for the mock to extend.
-     * @param string $interfaceNames Names of the interfaces for the mock to implement.
+     * @param string   $className      Name of the class for the mock to extend.
+     * @param string[] $interfaceNames Names of the interfaces for the mock to implement.
      *
      * @return MockBuilder The builder for a mock of an object that extends and implements
      *                     the specified class and interfaces.
@@ -90,7 +90,7 @@ class ValidateCapableTraitTest extends TestCase
         ]);
         eval($definition);
 
-        return $this->getMockForAbstractClass($paddingClassName);
+        return $this->getMockBuilder($paddingClassName);
     }
 
     /**
