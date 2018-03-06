@@ -14,7 +14,7 @@ use Dhii\Validation\Exception\ValidationFailedExceptionInterface;
  *
  * @since [*next-version*]
  */
-abstract class ValidateCapableTrait
+trait ValidateCapableTrait
 {
     /**
      * Validates a subject.
