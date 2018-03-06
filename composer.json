@@ -16,7 +16,8 @@
         "dhii/validation-interface": "dev-release/0.2"
     },
     "suggest": {
-        "dhii/stringable-interface": "To be able to pass stringable objects instead of strings"
+        "dhii/stringable-interface": "To be able to pass stringable objects instead of strings",
+        "dhii/validation-interface": "Needed to be able to create exceptions that are expected to be thrown"
     },
     "require-dev": {
         "dhii/php-cs-fixer-config": "dev-php-5.3",
@@ -34,8 +35,5 @@
         "psr-4": {
             "Dhii\\Validation\\TestStub\\": "test/stub/"
         }
-    },
-    "suggest": {
-        "dhii/validation-interface": "Needed to be able to create exceptions that are expected to be thrown"
     }
 }
