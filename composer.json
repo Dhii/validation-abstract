@@ -18,7 +18,8 @@
     "suggest": {
         "dhii/stringable-interface": "To be able to pass stringable objects instead of strings",
         "dhii/validation-interface": "Needed to be able to create exceptions that are expected to be thrown",
-        "dhii/iterator-helper-base": "For implementations of iterable-related helper functionality"
+        "dhii/iterator-helper-base": "For implementations of iterable-related helper functionality",
+        "dhii/normalization-helper-base": "For simple types normalization"
     },
     "require-dev": {
         "dhii/php-cs-fixer-config": "dev-php-5.3",
