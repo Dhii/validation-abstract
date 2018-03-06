@@ -2,13 +2,14 @@
 
 namespace Dhii\Validation;
 
+use stdClass;
 use Traversable;
 use Exception as RootException;
 use InvalidArgumentException;
 use Dhii\Util\String\StringableInterface as Stringable;
 
 /**
- * Functionality for retrieving child validators.
+ * Awareness of child validators.
  *
  * @since [*next-version*]
  */
@@ -19,16 +20,16 @@ trait ChildValidatorsAwareTrait
      *
      * @since [*next-version*]
      *
-     * @var array|Traversable|null
+     * @var array|Traversable|stdClass
      */
     protected $childValidators;
 
     /**
-     * Retrieves the spec associated with this instance.
+     * Retrieves the list of child validators associated with this instance.
      *
      * @since [*next-version*]
      *
-     * @return array|Traversable|null The spec.
+     * @return array|Traversable|stdClass The list of validators.
      */
     protected function _getChildValidators()
     {
@@ -40,23 +41,36 @@ trait ChildValidatorsAwareTrait
     }
 
     /**
-     * Assigns a spec to this instance.
+     * Retrieves the child validators.
      *
      * @since [*next-version*]
      *
-     * @param array|Traversable|null $spec The spec.
+     * @param ValidatorInterface[]|Traversable|stdClass $validators A list of validators.
      */
-    protected function _setChildValidators($spec)
+    protected function _setChildValidators($validators)
     {
-        if (!is_null($spec) && !is_array($spec) && !($spec instanceof Traversable)) {
-            throw $this->_createInvalidArgumentException($this->__('Invalid specification'), null, null, $spec);
-        }
+        $validators = $this->_normalizeIterable($validators);
 
-        $this->childValidators = $spec;
+        $this->childValidators = $validators;
     }
 
     /**
-     * Creates a new Dhii invalid argument exception.
+     * Normalizes an iterable.
+     *
+     * Makes sure that the return value can be iterated over.
+     *
+     * @since [*next-version*]
+     *
+     * @param mixed $iterable The iterable to normalize.
+     *
+     * @throws InvalidArgumentException If the iterable could not be normalized.
+     *
+     * @return array|Traversable|stdClass The normalized iterable.
+     */
+    abstract protected function _normalizeIterable($iterable);
+
+    /**
+     * Creates a new Invalid Argument exception.
      *
      * @since [*next-version*]
      *
