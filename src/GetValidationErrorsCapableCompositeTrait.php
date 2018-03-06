@@ -26,16 +26,11 @@ trait GetValidationErrorsCapableCompositeTrait
      *
      * @since [*next-version*]
      *
-     * @throws InvalidArgumentException If the spec not a valid list.
      * @throws OutOfRangeException If one of the child validators is not a validator.
      * @throws ValidationExceptionInterface If problem validating.
      */
     protected function _getValidationErrors($subject, $spec = null)
     {
-        if (!is_null($spec)) {
-            $spec = $this->_normalizeIterable($spec);
-        }
-
         $errors = array();
         foreach ($this->_getChildValidators() as $_idx => $_validator) {
 
