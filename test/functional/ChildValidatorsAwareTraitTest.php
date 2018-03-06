@@ -83,6 +83,11 @@ class ChildValidatorsAwareTraitTest extends TestCase
         $_subject = $this->reflect($subject);
         $data = $this->_createValidators();
 
+        $subject->expects($this->exactly(1))
+            ->method('_normalizeIterable')
+            ->with($data)
+            ->will($this->returnValue($data));
+
         $this->assertCount(0, $_subject->_getChildValidators(), 'Initial subject state is wrong');
 
         $_subject->_setChildValidators($data);
