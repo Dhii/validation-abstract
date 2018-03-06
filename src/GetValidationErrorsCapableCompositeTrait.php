@@ -2,6 +2,8 @@
 
 namespace Dhii\Validation;
 
+use Dhii\Validation\Exception\ValidationExceptionInterface;
+use InvalidArgumentException;
 use OutOfRangeException;
 use stdClass;
 use Traversable;
@@ -25,9 +27,14 @@ trait GetValidationErrorsCapableCompositeTrait
      * @since [*next-version*]
      *
      * @throws OutOfRangeException If one of the child validators is not a validator.
+     * @throws ValidationExceptionInterface If problem validating.
      */
-    protected function _getValidationErrors($subject)
+    protected function _getValidationErrors($subject, $spec = null)
     {
+        if (!is_null($spec)) {
+            $spec = $this->_normalizeValidationSpec($spec);
+        }
+
         $errors = array();
         foreach ($this->_getChildValidators() as $_idx => $_validator) {
             if (!($_validator instanceof ValidatorInterface)) {
@@ -35,7 +42,12 @@ trait GetValidationErrorsCapableCompositeTrait
             }
 
             try {
-                $_validator->validate($subject);
+                if ($_validator instanceof SpecValidatorInterface) {
+                    $_validator->validate($subject, $spec);
+                }
+                else {
+                    $_validator->validate($subject);
+                }
             } catch (ValidationFailedExceptionInterface $e) {
                 $errors[] = $e->getValidationErrors();
             }
@@ -63,6 +75,19 @@ trait GetValidationErrorsCapableCompositeTrait
      * @return string[]|Stringable[]|Traversable|stdClass The flat list of validation errors.
      */
     abstract protected function _normalizeErrorList($errorList);
+
+    /**
+     * Normalizes a validation specification.
+     *
+     * @since [*next-version*]
+     *
+     * @param array|Traversable|stdClass $spec
+     *
+     * @throws InvalidArgumentException If not a valid list of criteria.
+     *
+     * @return array|Traversable|stdClass A list of validation criteria.
+     */
+    abstract protected function _normalizeValidationSpec($spec);
 
     /**
      * Creates a new Out Of Range exception.

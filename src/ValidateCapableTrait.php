@@ -3,6 +3,7 @@
 namespace Dhii\Validation;
 
 use Dhii\Validation\Exception\ValidationExceptionInterface;
+use stdClass;
 use Traversable;
 use Exception as RootException;
 use Dhii\Util\String\StringableInterface as Stringable;
@@ -21,14 +22,15 @@ abstract class ValidateCapableTrait
      * @since [*next-version*]
      *
      * @param mixed $subject The value to validate.
+     * @param array|Traversable|stdClass|null The validation spec, if any.
      *
      * @throws ValidationFailedExceptionInterface If subject is invalid.
      * @throws ValidationExceptionInterface If problem validating.
      */
-    protected function _validate($subject)
+    protected function _validate($subject, $spec = null)
     {
         try {
-            $errors = $this->_getValidationErrors($subject);
+            $errors = $this->_getValidationErrors($subject, $spec);
         }
         catch (RootException $e) {
             throw $this->_throwValidationException($this->__('Could not validate'), null, $e, true);
@@ -49,13 +51,14 @@ abstract class ValidateCapableTrait
      * @since [*next-version*]
      *
      * @param mixed $subject The value to validate.
+     * @param array|Traversable|stdClass|null The validation spec, if any.
      *
      * @return string[]|Stringable[]|Traversable The list of validation errors.
      *                                           Must be finite.
      *
      * @throws RootException If a problem occurs.
      */
-    abstract protected function _getValidationErrors($subject);
+    abstract protected function _getValidationErrors($subject, $spec = null);
 
     /**
      * Retrieves the number of elements in the iterable.
