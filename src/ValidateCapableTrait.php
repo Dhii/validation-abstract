@@ -48,6 +48,8 @@ abstract class ValidateCapableTrait
      *
      * @since [*next-version*]
      *
+     * @param mixed $subject The value to validate.
+     *
      * @return string[]|Stringable[]|Traversable The list of validation errors.
      *                                           Must be finite.
      *
