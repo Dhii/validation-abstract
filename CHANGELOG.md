@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - Using throwing methods instead of exception factories.
+- Using newer versions of `dhii/validation-interface`.
 
 ### Added
 - `IsValidCapableTrait`, which separates logic for determining whether something is valid.
