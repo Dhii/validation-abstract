@@ -13,7 +13,7 @@
     "prefer-stable": true,
     "require": {
         "php": "^5.3 | ^7.0",
-        "dhii/validation-interface": "dev-release/0.2"
+        "dhii/validation-interface": "^0.2"
     },
     "suggest": {
         "dhii/stringable-interface": "To be able to pass stringable objects instead of strings",

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0687c79d9c37772ac2389d5d38200e8c",
+    "content-hash": "2e7df7e89f232afc47b753822e08d220",
     "packages": [
         {
             "name": "dhii/exception-interface",
@@ -93,16 +93,16 @@
         },
         {
             "name": "dhii/validation-interface",
-            "version": "dev-release/0.2",
+            "version": "v0.2-alpha1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Dhii/validation-interface.git",
-                "reference": "66ae377a818caf7998a9fc2a7b591ba7cf1f4c73"
+                "reference": "f247035cc5f37f92b1cc33df769cd31a7db04fff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Dhii/validation-interface/zipball/66ae377a818caf7998a9fc2a7b591ba7cf1f4c73",
-                "reference": "66ae377a818caf7998a9fc2a7b591ba7cf1f4c73",
+                "url": "https://api.github.com/repos/Dhii/validation-interface/zipball/f247035cc5f37f92b1cc33df769cd31a7db04fff",
+                "reference": "f247035cc5f37f92b1cc33df769cd31a7db04fff",
                 "shasum": ""
             },
             "require": {
@@ -116,6 +116,11 @@
                 "ptrofimov/xpmock": "^1.1"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-develop": "0.2.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Dhii\\Validation\\": "src/"
@@ -132,7 +137,7 @@
                 }
             ],
             "description": "A base interface for validators",
-            "time": "2017-09-05T13:25:00+00:00"
+            "time": "2018-03-06T16:22:43+00:00"
         }
     ],
     "packages-dev": [
@@ -1985,7 +1990,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "dhii/validation-interface": 20,
         "dhii/php-cs-fixer-config": 20
     },
     "prefer-stable": true,
