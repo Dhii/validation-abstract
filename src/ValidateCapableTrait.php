@@ -53,8 +53,7 @@ trait ValidateCapableTrait
      * @param mixed $subject The value to validate.
      * @param array|Traversable|stdClass|null The validation spec, if any.
      *
-     * @return string[]|Stringable[]|Traversable The list of validation errors.
-     *                                           Must be finite.
+     * @return string[]|Stringable[]|Traversable|stdClass The list of validation errors. Must be finite.
      *
      * @throws RootException If a problem occurs.
      */

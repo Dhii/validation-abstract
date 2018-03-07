@@ -28,6 +28,8 @@ trait GetValidationErrorsCapableCompositeTrait
      *
      * @throws OutOfRangeException If one of the child validators is not a validator.
      * @throws ValidationExceptionInterface If problem validating.
+     *
+     * @return string[]|Stringable[]|Traversable|stdClass The list of validation errors. Must be finite.
      */
     protected function _getValidationErrors($subject, $spec = null)
     {
