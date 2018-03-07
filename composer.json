@@ -38,5 +38,10 @@
         "psr-4": {
             "Dhii\\Validation\\TestStub\\": "test/stub/"
         }
+    },
+    "scripts": {
+        "analyze": [
+            "phan --progress-bar --output-mode=text --output=test/phan-report.txt"
+        ]
     }
 }
