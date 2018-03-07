@@ -33,9 +33,6 @@ class SpecAwareTraitTest extends TestCase
     {
         $mock = $this->getMockForTrait(static::TEST_SUBJECT_CLASSNAME);
         $mock->method('__')->will($this->returnArgument(0));
-        $mock->method('_createInvalidArgumentException')->will($this->returnCallback(function ($message) {
-            return new InvalidArgumentException($message);
-        }));
 
         return $mock;
     }
@@ -77,6 +74,29 @@ class SpecAwareTraitTest extends TestCase
 
         $this->assertNull($_subject->_getSpec(), 'Initial subject state is wrong');
 
+        $subject->expects($this->exactly(1))
+            ->method('_normalizeIterable')
+            ->with($data)
+            ->will($this->returnValue($data));
+
+        $_subject->_setSpec($data);
+        $this->assertSame($data, $_subject->_getSpec(), 'Altered subject state is wrong');
+    }
+
+
+    /*
+     * Tests whether setting and getting a null spec works as expected.
+     *
+     * @since [*next-version*]
+     */
+    public function testSetGetSpecNull()
+    {
+        $data = null;
+        $subject = $this->createInstance();
+        $_subject = $this->reflect($subject);
+
+        $_subject->spec = [uniqid('criterion')];
+
         $_subject->_setSpec($data);
         $this->assertSame($data, $_subject->_getSpec(), 'Altered subject state is wrong');
     }
@@ -88,9 +108,15 @@ class SpecAwareTraitTest extends TestCase
      */
     public function testSetSpecFailure()
     {
+        $data = new \stdClass();
+        $exception = new InvalidArgumentException('Invalid iterable');
         $subject = $this->createInstance();
         $_subject = $this->reflect($subject);
-        $data = new \stdClass();
+
+        $subject->expects($this->exactly(1))
+            ->method('_normalizeIterable')
+            ->with($data)
+            ->will($this->throwException($exception));
 
         $this->setExpectedException('InvalidArgumentException');
         $_subject->_setSpec($data);
