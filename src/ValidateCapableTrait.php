@@ -25,7 +25,7 @@ trait ValidateCapableTrait
      * @param array|Traversable|stdClass|null The validation spec, if any.
      *
      * @throws ValidationFailedExceptionInterface If subject is invalid.
-     * @throws ValidationExceptionInterface If problem validating.
+     * @throws RootException If problem validating.
      */
     protected function _validate($subject, $spec = null)
     {
