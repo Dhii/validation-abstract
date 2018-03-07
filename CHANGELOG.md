@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Using throwing methods instead of exception factories.
 - Using newer versions of `dhii/validation-interface`.
+- Using normalization methods in setters where applicable, broadening the range of accepted values.
 
 ### Added
 - `IsValidCapableTrait`, which separates logic for determining whether something is valid.
