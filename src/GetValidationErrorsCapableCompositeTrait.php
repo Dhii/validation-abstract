@@ -75,21 +75,6 @@ trait GetValidationErrorsCapableCompositeTrait
     abstract protected function _normalizeErrorList($errorList);
 
     /**
-     * Normalizes an iterable.
-     *
-     * Makes sure that the return value can be iterated over.
-     *
-     * @since [*next-version*]
-     *
-     * @param mixed $iterable The iterable to normalize.
-     *
-     * @throws InvalidArgumentException If the iterable could not be normalized.
-     *
-     * @return array|Traversable|stdClass The normalized iterable.
-     */
-    abstract protected function _normalizeIterable($iterable);
-
-    /**
      * Creates a new Out Of Range exception.
      *
      * @since [*next-version*]
