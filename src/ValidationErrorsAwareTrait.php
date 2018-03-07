@@ -5,6 +5,7 @@ namespace Dhii\Validation;
 use Traversable;
 use InvalidArgumentException;
 use Exception as RootException;
+use Dhii\Util\String\StringableInterface as Stringable;
 
 /**
  * Functionality for retrieving the subject.
