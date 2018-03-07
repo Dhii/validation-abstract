@@ -22,9 +22,14 @@ use Exception as RootException;
 trait GetValidationErrorsCapableCompositeTrait
 {
     /**
-     * {@inheritdoc}
+     * Retrieve a list of reasons that make the subject invalid.
+     *
+     * This implementation uses child validators, and validates the subject with each one sequentially.
+     * It then aggregates the errors from all of them into a flat list.
      *
      * @since [*next-version*]
+     *
+     * @param mixed $subject The value to validate.
      *
      * @throws OutOfRangeException If one of the child validators is not a validator.
      * @throws ValidationExceptionInterface If problem validating.
