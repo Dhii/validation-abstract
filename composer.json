@@ -39,6 +39,11 @@
             "Dhii\\Validation\\TestStub\\": "test/stub/"
         }
     },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "0.2.x-dev"
+        }
+    },
     "scripts": {
         "analyze": [
             "phan --progress-bar --output-mode=text --output=test/phan-report.txt"
