@@ -2,9 +2,9 @@
 
 namespace Dhii\Validation;
 
+use stdClass;
 use Traversable;
 use InvalidArgumentException;
-use Exception as RootException;
 
 /**
  * Functionality for retrieving the subject.
@@ -18,7 +18,7 @@ trait ValidationErrorsAwareTrait
      *
      * @since [*next-version*]
      *
-     * @var array|Traversable
+     * @var array|Traversable|stdClass|null
      */
     protected $validationErrors;
 
@@ -27,7 +27,7 @@ trait ValidationErrorsAwareTrait
      *
      * @since [*next-version*]
      *
-     * @return array|Traversable The error list.
+     * @return array|Traversable|stdClass The error list.
      */
     protected function _getValidationErrors()
     {
@@ -43,46 +43,29 @@ trait ValidationErrorsAwareTrait
      *
      * @since [*next-version*]
      *
-     * @param array|Traversable|null $errorList The list of errors.
+     * @param array|Traversable|stdClass|null $errorList The list of errors.
      */
     protected function _setValidationErrors($errorList)
     {
-        if (!is_null($errorList) && !is_array($errorList) && !($errorList instanceof Traversable)) {
-            throw $this->_createInvalidArgumentException($this->__('Invalid validation error list'), null, null, $errorList);
+        if (!is_null($errorList)) {
+            $errorList = $this->_normalizeIterable($errorList);
         }
+
         $this->validationErrors = $errorList;
     }
 
     /**
-     * Creates a new Dhii invalid argument exception.
+     * Normalizes an iterable.
+     *
+     * Makes sure that the return value can be iterated over.
      *
      * @since [*next-version*]
      *
-     * @param string|Stringable|null $message  The error message, if any.
-     * @param int|null               $code     The error code, if any.
-     * @param RootException|null     $previous The inner exception for chaining, if any.
-     * @param mixed|null             $argument The invalid argument, if any.
+     * @param mixed $iterable The iterable to normalize.
      *
-     * @return InvalidArgumentException The new exception.
+     * @throws InvalidArgumentException If the iterable could not be normalized.
+     *
+     * @return array|Traversable|stdClass The normalized iterable.
      */
-    abstract protected function _createInvalidArgumentException(
-            $message = null,
-            $code = null,
-            RootException $previous = null,
-            $argument = null
-    );
-
-    /**
-     * Translates a string, and replaces placeholders.
-     *
-     * @since [*next-version*]
-     * @see sprintf()
-     *
-     * @param string $string  The format string to translate.
-     * @param array  $args    Placeholder values to replace in the string.
-     * @param mixed  $context The context for translation.
-     *
-     * @return string The translated string.
-     */
-    abstract protected function __($string, $args = array(), $context = null);
+    abstract protected function _normalizeIterable($iterable);
 }

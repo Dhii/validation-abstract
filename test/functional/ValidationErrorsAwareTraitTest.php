@@ -32,9 +32,6 @@ class ValidationErrorsAwareTraitTest extends TestCase
     {
         $mock = $this->getMockForTrait(static::TEST_SUBJECT_CLASSNAME);
         $mock->method('__')->will($this->returnArgument(0));
-        $mock->method('_createInvalidArgumentException')->will($this->returnCallback(function ($message) {
-            return new InvalidArgumentException($message);
-        }));
 
         return $mock;
     }
@@ -62,10 +59,31 @@ class ValidationErrorsAwareTraitTest extends TestCase
         $_subject = $this->reflect($subject);
         $data = new ArrayIterator(array('one', 'two'));
 
+        $subject->expects($this->exactly(1))
+            ->method('_normalizeIterable')
+            ->with($data)
+            ->will($this->returnValue($data));
+
         $this->assertEquals(array(), $_subject->_getValidationErrors(), 'Initial subject state is wrong');
 
         $_subject->_setValidationErrors($data);
         $this->assertSame($data, $_subject->_getValidationErrors(), 'Altered subject state is wrong');
+    }
+
+    /*
+     * Tests whether setting and getting a validation error list works as expected when given null.
+     *
+     * @since [*next-version*]
+     */
+    public function testSetGetValidationErrorsNull()
+    {
+        $data = null;
+        $subject = $this->createInstance();
+        $_subject = $this->reflect($subject);
+
+        $_subject->validationErrors = [];
+        $_subject->_setValidationErrors($data);
+        $this->assertSame($data, $_subject->validationErrors, 'Altered subject state is wrong');
     }
 
     /**
@@ -75,9 +93,15 @@ class ValidationErrorsAwareTraitTest extends TestCase
      */
     public function testSetValidatorFailure()
     {
+        $data = uniqid('iterable');
+        $exception = new InvalidArgumentException('Invalid iterable');
         $subject = $this->createInstance();
         $_subject = $this->reflect($subject);
-        $data = new \stdClass();
+
+        $subject->expects($this->exactly(1))
+            ->method('_normalizeIterable')
+            ->with($data)
+            ->will($this->throwException($exception));
 
         $this->setExpectedException('InvalidArgumentException');
         $_subject->_setValidationErrors($data);

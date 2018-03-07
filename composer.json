@@ -13,10 +13,14 @@
     "prefer-stable": true,
     "require": {
         "php": "^5.3 | ^7.0",
-        "dhii/validation-interface": "dev-release/0.2"
+        "dhii/validation-interface": "^0.2"
     },
     "suggest": {
-        "dhii/stringable-interface": "To be able to pass stringable objects instead of strings"
+        "dhii/stringable-interface": "To be able to pass stringable objects instead of strings",
+        "dhii/validation-interface": "Needed to be able to create exceptions that are expected to be thrown",
+        "dhii/iterator-helper-base": "For implementations of iterable-related helper functionality",
+        "dhii/normalization-helper-base": "For simple types normalization",
+        "dhii/i18n-helper-base": "For string internationalization"
     },
     "require-dev": {
         "dhii/php-cs-fixer-config": "dev-php-5.3",
@@ -35,7 +39,9 @@
             "Dhii\\Validation\\TestStub\\": "test/stub/"
         }
     },
-    "suggest": {
-        "dhii/validation-interface": "Needed to be able to create exceptions that are expected to be thrown"
+    "scripts": {
+        "analyze": [
+            "phan --progress-bar --output-mode=text --output=test/phan-report.txt"
+        ]
     }
 }
