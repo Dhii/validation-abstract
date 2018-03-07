@@ -83,7 +83,6 @@ class SpecAwareTraitTest extends TestCase
         $this->assertSame($data, $_subject->_getSpec(), 'Altered subject state is wrong');
     }
 
-
     /*
      * Tests whether setting and getting a null spec works as expected.
      *

@@ -24,7 +24,7 @@ trait ValidateCapableTrait
      * @param mixed $subject The value to validate.
      *
      * @throws ValidationFailedExceptionInterface If subject is invalid.
-     * @throws RootException If problem validating.
+     * @throws RootException                      If problem validating.
      */
     protected function _validate($subject)
     {
@@ -46,9 +46,9 @@ trait ValidateCapableTrait
      *
      * @param mixed $subject The value to validate.
      *
-     * @return string[]|Stringable[]|Traversable|stdClass The list of validation errors. Must be finite.
-     *
      * @throws RootException If a problem occurs.
+     *
+     * @return string[]|Stringable[]|Traversable|stdClass The list of validation errors. Must be finite.
      */
     abstract protected function _getValidationErrors($subject);
 
@@ -73,8 +73,8 @@ trait ValidateCapableTrait
      * @param string|Stringable|null                 $message          The error message, if any.
      * @param int|null                               $code             The error code, if any.
      * @param RootException|null                     $previous         The inner exception, if any.
-     * @param ValidatorInterface|null|bool                     $validator        The validator which validated the subject, if any.
-     * Pass `true` to attempt a late validator substitution.
+     * @param ValidatorInterface|null|bool           $validator        The validator which validated the subject, if any.
+     *                                                                 Pass `true` to attempt a late validator substitution.
      * @param mixed|null                             $subject          The subject that has failed validation, if any.
      * @param string[]|Stringable[]|Traversable|null $validationErrors The errors that are to be associated with the new exception, if any.
      *
@@ -94,11 +94,11 @@ trait ValidateCapableTrait
      *
      * @since [*next-version*]
      *
-     * @param string|Stringable|null                 $message          The error message, if any.
-     * @param int|null                               $code             The error code, if any.
-     * @param RootException|null                     $previous         The inner exception, if any.
-     * @param ValidatorInterface|null|bool                     $validator        The validator which validated the subject, if any.
-     * Pass `true` to attempt a late validator substitution.
+     * @param string|Stringable|null       $message   The error message, if any.
+     * @param int|null                     $code      The error code, if any.
+     * @param RootException|null           $previous  The inner exception, if any.
+     * @param ValidatorInterface|null|bool $validator The validator which validated the subject, if any.
+     *                                                Pass `true` to attempt a late validator substitution.
      *
      * @throws ValidationExceptionInterface
      */

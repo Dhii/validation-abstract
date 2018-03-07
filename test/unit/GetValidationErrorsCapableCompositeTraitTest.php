@@ -2,11 +2,8 @@
 
 namespace Dhii\Validation\UnitTest;
 
-use Dhii\Validation\Exception\ValidationExceptionInterface;
 use Dhii\Validation\Exception\ValidationFailedExceptionInterface;
 use Dhii\Validation\GetValidationErrorsCapableCompositeTrait as TestSubject;
-
-use Dhii\Validation\SpecValidatorInterface;
 use Dhii\Validation\ValidatorInterface;
 use InvalidArgumentException;
 use OutOfRangeException;
@@ -159,7 +156,7 @@ class GetValidationErrorsCapableCompositeTraitTest extends TestCase
      * @since [*next-version*]
      *
      * @param string $message The exception message.
-     * @param array $methods The methods to mock.
+     * @param array  $methods The methods to mock.
      *
      * @return RootException|ValidationFailedExceptionInterface|MockObject The new exception.
      */
@@ -167,7 +164,7 @@ class GetValidationErrorsCapableCompositeTraitTest extends TestCase
     {
         is_array($methods) && $methods = $this->mergeValues($methods, [
             'getSubject',
-            'getValidator'
+            'getValidator',
         ]);
 
         $mock = $this->mockClassAndInterfaces('Exception', ['Dhii\Validation\Exception\ValidationFailedExceptionInterface'])

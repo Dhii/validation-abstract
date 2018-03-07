@@ -2,10 +2,8 @@
 
 namespace Dhii\Validation\UnitTest;
 
-use Dhii\Validation\Exception\ValidationExceptionInterface;
 use Dhii\Validation\Exception\ValidationFailedExceptionInterface;
 use Dhii\Validation\ValidateCapableTrait as TestSubject;
-
 use Xpmock\TestCase;
 use Exception as RootException;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;

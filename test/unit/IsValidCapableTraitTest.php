@@ -2,10 +2,8 @@
 
 namespace Dhii\Validation\UnitTest;
 
-use Dhii\Validation\Exception\ValidationExceptionInterface;
 use Dhii\Validation\Exception\ValidationFailedExceptionInterface;
 use Dhii\Validation\IsValidCapableTrait as TestSubject;
-
 use Xpmock\TestCase;
 use Exception as RootException;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
@@ -58,7 +56,7 @@ class IsValidCapableTraitTest extends TestCase
      * @since [*next-version*]
      *
      * @param array $destination The base array.
-     * @param array $source The array with more keys.
+     * @param array $source      The array with more keys.
      *
      * @return array The array which contains unique values
      */
@@ -76,7 +74,7 @@ class IsValidCapableTraitTest extends TestCase
      *
      * @since [*next-version*]
      *
-     * @param string $className Name of the class for the mock to extend.
+     * @param string   $className      Name of the class for the mock to extend.
      * @param string[] $interfaceNames Names of the interfaces for the mock to implement.
      *
      * @return MockBuilder The builder for a mock of an object that extends and implements

@@ -19,9 +19,9 @@ trait IsValidCapableTrait
      *
      * @param mixed $subject The value to validate.
      *
-     * @return bool True if the subject is valid; false otherwise.
-     *
      * @throws RootException If problem validating.
+     *
+     * @return bool True if the subject is valid; false otherwise.
      */
     protected function _isValid($subject)
     {
@@ -42,7 +42,7 @@ trait IsValidCapableTrait
      * @param mixed $subject The value to validate.
      *
      * @throws ValidationFailedExceptionInterface If subject is invalid.
-     * @throws RootException If problem validating.
+     * @throws RootException                      If problem validating.
      */
     abstract protected function _validate($subject);
 }

@@ -4,9 +4,7 @@ namespace Dhii\Validation;
 
 use stdClass;
 use Traversable;
-use Exception as RootException;
 use InvalidArgumentException;
-use Dhii\Util\String\StringableInterface as Stringable;
 
 /**
  * Functionality for validation spec awareness.

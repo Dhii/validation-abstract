@@ -31,7 +31,7 @@ trait GetValidationErrorsCapableCompositeTrait
      *
      * @param mixed $subject The value to validate.
      *
-     * @throws OutOfRangeException If one of the child validators is not a validator.
+     * @throws OutOfRangeException          If one of the child validators is not a validator.
      * @throws ValidationExceptionInterface If problem validating.
      *
      * @return string[]|Stringable[]|Traversable|stdClass The list of validation errors. Must be finite.
@@ -42,7 +42,7 @@ trait GetValidationErrorsCapableCompositeTrait
         foreach ($this->_getChildValidators() as $_idx => $_validator) {
             try {
                 if (!($_validator instanceof ValidatorInterface)) {
-                    throw $this->_createOutOfRangeException($this->__('Validator %1$s is invalid', [$_idx]), null, null, $_validator);
+                    throw $this->_createOutOfRangeException($this->__('Validator %1$s is invalid', array($_idx)), null, null, $_validator);
                 }
 
                 $_validator->validate($subject);
