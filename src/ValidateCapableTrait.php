@@ -22,19 +22,13 @@ trait ValidateCapableTrait
      * @since [*next-version*]
      *
      * @param mixed $subject The value to validate.
-     * @param array|Traversable|stdClass|null The validation spec, if any.
      *
      * @throws ValidationFailedExceptionInterface If subject is invalid.
      * @throws RootException If problem validating.
      */
-    protected function _validate($subject, $spec = null)
+    protected function _validate($subject)
     {
-        try {
-            $errors = $this->_getValidationErrors($subject, $spec);
-        }
-        catch (RootException $e) {
-            throw $this->_throwValidationException($this->__('Could not validate'), null, $e, true);
-        }
+        $errors = $this->_getValidationErrors($subject);
 
         if (!$this->_countIterable($errors)) {
             return;
@@ -51,13 +45,12 @@ trait ValidateCapableTrait
      * @since [*next-version*]
      *
      * @param mixed $subject The value to validate.
-     * @param array|Traversable|stdClass|null The validation spec, if any.
      *
      * @return string[]|Stringable[]|Traversable|stdClass The list of validation errors. Must be finite.
      *
      * @throws RootException If a problem occurs.
      */
-    abstract protected function _getValidationErrors($subject, $spec = null);
+    abstract protected function _getValidationErrors($subject);
 
     /**
      * Retrieves the number of elements in the iterable.

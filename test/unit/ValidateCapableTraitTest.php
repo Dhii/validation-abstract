@@ -114,24 +114,6 @@ class ValidateCapableTraitTest extends TestCase
     }
 
     /**
-     * Creates a new Validation exception.
-     *
-     * @since [*next-version*]
-     *
-     * @param string $message The exception message.
-     *
-     * @return RootException|ValidationExceptionInterface|MockObject The new exception.
-     */
-    public function createValidationException($message = '')
-    {
-        $mock = $this->mockClassAndInterfaces('Exception', ['Dhii\Validation\Exception\ValidationExceptionInterface'])
-            ->setConstructorArgs([$message])
-            ->getMock();
-
-        return $mock;
-    }
-
-    /**
      * Creates a new Validation Failed exception.
      *
      * @since [*next-version*]
@@ -173,21 +155,20 @@ class ValidateCapableTraitTest extends TestCase
     public function testValidateValid()
     {
         $val = uniqid('val');
-        $spec = null;
         $errors = [];
         $subject = $this->createInstance(['_getValidationErrors', '_countIterable']);
         $_subject = $this->reflect($subject);
 
         $subject->expects($this->exactly(1))
             ->method('_getValidationErrors')
-            ->with($val, $spec)
+            ->with($val)
             ->will($this->returnValue($errors));
         $subject->expects($this->exactly(1))
             ->method('_countIterable')
             ->with($errors)
             ->will($this->returnValue(count($errors)));
 
-        $_subject->_validate($val, $spec);
+        $_subject->_validate($val);
     }
 
     /**
@@ -198,7 +179,6 @@ class ValidateCapableTraitTest extends TestCase
     public function testValidateInvalid()
     {
         $val = uniqid('val');
-        $spec = [uniqid('criterion')];
         $errors = [uniqid('validation-error')];
         $exception = $this->createValidationFailedException('Subject is invalid');
         $subject = $this->createInstance(['_getValidationErrors', '_countIterable', '_throwValidationFailedException']);
@@ -206,7 +186,7 @@ class ValidateCapableTraitTest extends TestCase
 
         $subject->expects($this->exactly(1))
             ->method('_getValidationErrors')
-            ->with($val, $spec)
+            ->with($val)
             ->will($this->returnValue($errors));
         $subject->expects($this->exactly(1))
             ->method('_countIterable')
@@ -225,7 +205,7 @@ class ValidateCapableTraitTest extends TestCase
             ->will($this->throwException($exception));
 
         $this->setExpectedException('Dhii\Validation\Exception\ValidationFailedExceptionInterface');
-        $_subject->_validate($val, $spec);
+        $_subject->_validate($val);
     }
 
     /**
@@ -236,28 +216,16 @@ class ValidateCapableTraitTest extends TestCase
     public function testValidateFailureProblemValidating()
     {
         $val = uniqid('val');
-        $spec = [uniqid('criterion')];
-        $errors = [uniqid('validation-error')];
-        $innerException = $this->createException('Something went wrong');
-        $exception = $this->createValidationException('Problem validating');
+        $exception = $this->createException('Problem validating');
         $subject = $this->createInstance(['_getValidationErrors', '_countIterable', '_throwValidationException']);
         $_subject = $this->reflect($subject);
 
         $subject->expects($this->exactly(1))
             ->method('_getValidationErrors')
-            ->with($val, $spec)
-            ->will($this->throwException($innerException));
-        $subject->expects($this->exactly(1))
-            ->method('_throwValidationException')
-            ->with(
-                $this->isType('string'),
-                null,
-                $innerException,
-                $this->isTrue()
-            )
+            ->with($val)
             ->will($this->throwException($exception));
 
-        $this->setExpectedException('Dhii\Validation\Exception\ValidationExceptionInterface');
-        $_subject->_validate($val, $spec);
+        $this->setExpectedException('Exception');
+        $_subject->_validate($val);
     }
 }

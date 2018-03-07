@@ -36,21 +36,16 @@ trait GetValidationErrorsCapableCompositeTrait
      *
      * @return string[]|Stringable[]|Traversable|stdClass The list of validation errors. Must be finite.
      */
-    protected function _getValidationErrors($subject, $spec = null)
+    protected function _getValidationErrors($subject)
     {
         $errors = array();
         foreach ($this->_getChildValidators() as $_idx => $_validator) {
-
             try {
-                if ($_validator instanceof SpecValidatorInterface) {
-                    $_validator->validate($subject, $spec);
-                }
-                elseif ($_validator instanceof ValidatorInterface) {
-                    $_validator->validate($subject);
-                }
-                else {
+                if (!($_validator instanceof ValidatorInterface)) {
                     throw $this->_createOutOfRangeException($this->__('Validator %1$s is invalid', [$_idx]), null, null, $_validator);
                 }
+
+                $_validator->validate($subject);
             } catch (ValidationFailedExceptionInterface $e) {
                 $errors[] = $e->getValidationErrors();
             }

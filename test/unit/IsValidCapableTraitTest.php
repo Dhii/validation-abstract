@@ -114,24 +114,6 @@ class IsValidCapableTraitTest extends TestCase
     }
 
     /**
-     * Creates a new Validation exception.
-     *
-     * @since [*next-version*]
-     *
-     * @param string $message The exception message.
-     *
-     * @return RootException|ValidationExceptionInterface|MockObject The new exception.
-     */
-    public function createValidationException($message = '')
-    {
-        $mock = $this->mockClassAndInterfaces('Exception', ['Dhii\Validation\Exception\ValidationExceptionInterface'])
-            ->setConstructorArgs([$message])
-            ->getMock();
-
-        return $mock;
-    }
-
-    /**
      * Creates a new Validation Failed exception.
      *
      * @since [*next-version*]
@@ -173,15 +155,14 @@ class IsValidCapableTraitTest extends TestCase
     public function testIsValidValid()
     {
         $val = uniqid('val');
-        $spec = [uniqid('criterion')];
         $subject = $this->createInstance();
         $_subject = $this->reflect($subject);
 
         $subject->expects($this->exactly(1))
             ->method('_validate')
-            ->with($val, $spec);
+            ->with($val);
 
-        $result = $_subject->_isValid($val, $spec);
+        $result = $_subject->_isValid($val);
         $this->assertTrue($result, 'Validation status determined incorrectly');
     }
 
@@ -193,17 +174,16 @@ class IsValidCapableTraitTest extends TestCase
     public function testIsValidInvalid()
     {
         $val = uniqid('val');
-        $spec = [uniqid('criterion')];
         $exception = $this->createValidationFailedException('Subject is invalid');
         $subject = $this->createInstance();
         $_subject = $this->reflect($subject);
 
         $subject->expects($this->exactly(1))
             ->method('_validate')
-            ->with($val, $spec)
+            ->with($val)
             ->will($this->throwException($exception));
 
-        $result = $_subject->_isValid($val, $spec);
+        $result = $_subject->_isValid($val);
         $this->assertFalse($result, 'Validation status determined incorrectly');
     }
 
@@ -215,17 +195,16 @@ class IsValidCapableTraitTest extends TestCase
     public function testIsValidFailureProblemValidating()
     {
         $val = uniqid('val');
-        $spec = [uniqid('criterion')];
-        $exception = $this->createValidationException('Problem validating');
+        $exception = $this->createException('Problem validating');
         $subject = $this->createInstance();
         $_subject = $this->reflect($subject);
 
         $subject->expects($this->exactly(1))
             ->method('_validate')
-            ->with($val, $spec)
+            ->with($val)
             ->will($this->throwException($exception));
 
-        $this->setExpectedException('Dhii\Validation\Exception\ValidationExceptionInterface');
-        $_subject->_isValid($val, $spec);
+        $this->setExpectedException('Exception');
+        $_subject->_isValid($val);
     }
 }

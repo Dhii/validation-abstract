@@ -154,24 +154,6 @@ class GetValidationErrorsCapableCompositeTraitTest extends TestCase
     }
 
     /**
-     * Creates a new Validation exception.
-     *
-     * @since [*next-version*]
-     *
-     * @param string $message The exception message.
-     *
-     * @return RootException|ValidationExceptionInterface|MockObject The new exception.
-     */
-    public function createValidationException($message = '')
-    {
-        $mock = $this->mockClassAndInterfaces('Exception', ['Dhii\Validation\Exception\ValidationExceptionInterface'])
-            ->setConstructorArgs([$message])
-            ->getMock();
-
-        return $mock;
-    }
-
-    /**
      * Creates a new Validation Failed exception.
      *
      * @since [*next-version*]
@@ -218,26 +200,6 @@ class GetValidationErrorsCapableCompositeTraitTest extends TestCase
     }
 
     /**
-     * Creates a new spec validator.
-     *
-     * @since [*next-version*]
-     *
-     * @param string[]|null $methods The names of methods to mock.
-     *
-     * @return MockObject|SpecValidatorInterface The new spec validator.
-     */
-    public function createSpecValidator($methods = [])
-    {
-        is_array($methods) && $methods = $this->mergeValues($methods, [
-        ]);
-        $mock = $this->getMockBuilder('Dhii\Validation\SpecValidatorInterface')
-            ->setMethods($methods)
-            ->getMock();
-
-        return $mock;
-    }
-
-    /**
      * Tests whether a valid instance of the test subject can be created.
      *
      * @since [*next-version*]
@@ -261,11 +223,10 @@ class GetValidationErrorsCapableCompositeTraitTest extends TestCase
     public function testGetValidationErrorsHasErrors()
     {
         $val = uniqid('val');
-        $spec = [uniqid('criterion')];
         $failureMessage = vsprintf('Validation of %1$s failed', [$val]);
         $failureMessages = [$failureMessage];
         $validator1 = $this->createValidator(['validate']);
-        $validator2 = $this->createSpecValidator(['validate']);
+        $validator2 = $this->createValidator(['validate']);
         $validators = [$validator1, $validator2];
         $exception = $this->createValidationFailedException('Validation failed', ['getValidationErrors']);
         $subject = $this->createInstance();
@@ -280,13 +241,9 @@ class GetValidationErrorsCapableCompositeTraitTest extends TestCase
             ->with($val);
         $validator2->expects($this->exactly(1))
             ->method('validate')
-            ->with($val, $spec)
+            ->with($val)
             ->will($this->throwException($exception));
 
-        $subject->expects($this->exactly(1))
-            ->method('_normalizeIterable')
-            ->with($spec)
-            ->will($this->returnValue($spec));
         $subject->expects($this->exactly(1))
             ->method('_getChildValidators')
             ->will($this->returnValue($validators));
@@ -295,7 +252,7 @@ class GetValidationErrorsCapableCompositeTraitTest extends TestCase
             ->with([$failureMessages])
             ->will($this->returnValue($failureMessages));
 
-        $result = $_subject->_getValidationErrors($val, $spec);
+        $result = $_subject->_getValidationErrors($val);
         $this->assertEquals($failureMessages, $result, 'Wrong error message list');
     }
 
@@ -307,9 +264,8 @@ class GetValidationErrorsCapableCompositeTraitTest extends TestCase
     public function testGetValidationErrorsNoErrors()
     {
         $val = uniqid('val');
-        $spec = null;
         $validator1 = $this->createValidator(['validate']);
-        $validator2 = $this->createSpecValidator(['validate']);
+        $validator2 = $this->createValidator(['validate']);
         $validators = [$validator1, $validator2];
         $subject = $this->createInstance();
         $_subject = $this->reflect($subject);
@@ -319,7 +275,7 @@ class GetValidationErrorsCapableCompositeTraitTest extends TestCase
             ->with($val);
         $validator2->expects($this->exactly(1))
             ->method('validate')
-            ->with($val, $spec);
+            ->with($val);
         $subject->expects($this->exactly(1))
             ->method('_getChildValidators')
             ->will($this->returnValue($validators));
@@ -328,30 +284,8 @@ class GetValidationErrorsCapableCompositeTraitTest extends TestCase
             ->with([])
             ->will($this->returnValue([]));
 
-        $result = $_subject->_getValidationErrors($val, $spec);
+        $result = $_subject->_getValidationErrors($val);
         $this->assertEquals([], $result, 'Wrong error message list');
-    }
-
-    /**
-     * Tests that `_getValidationErrors()` fails correctly when given an invalid list of criteria.
-     *
-     * @since [*next-version*]
-     */
-    public function testGetValidationErrorsFailureInvalidSpec()
-    {
-        $val = uniqid('value');
-        $spec = uniqid('spec');
-        $subject = $this->createInstance();
-        $exception = $this->createInvalidArgumentException('Spec is not a valid list');
-        $_subject = $this->reflect($subject);
-
-        $subject->expects($this->exactly(1))
-            ->method('_normalizeIterable')
-            ->with($spec)
-            ->will($this->throwException($exception));
-
-        $this->setExpectedException('InvalidArgumentException');
-        $_subject->_getValidationErrors($val, $spec);
     }
 
     /**
@@ -362,16 +296,12 @@ class GetValidationErrorsCapableCompositeTraitTest extends TestCase
     public function testGetValidationErrorsFailureInvalidValidator()
     {
         $val = uniqid('value');
-        $spec = uniqid('spec');
         $validator = uniqid('validator');
         $validators = [$validator];
         $subject = $this->createInstance();
         $exception = $this->createOutOfRangeException('Not a validator');
         $_subject = $this->reflect($subject);
 
-        $subject->expects($this->exactly(1))
-            ->method('_normalizeIterable')
-            ->will($this->returnValue($spec));
         $subject->expects($this->exactly(1))
             ->method('_getChildValidators')
             ->will($this->returnValue($validators));
@@ -386,6 +316,6 @@ class GetValidationErrorsCapableCompositeTraitTest extends TestCase
             ->will($this->returnValue($exception));
 
         $this->setExpectedException('OutOfRangeException');
-        $_subject->_getValidationErrors($val, $spec);
+        $_subject->_getValidationErrors($val);
     }
 }
